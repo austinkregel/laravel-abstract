@@ -1,0 +1,57 @@
+{
+    "name": "kregel/laravel-abstract",
+    "description": "",
+    "keywords": [
+        "kregel",
+        "abstract",
+        "prototyping",
+        "api"
+    ],
+    "homepage": "https://github.com/austinkregel/abstract",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Austin Kregel",
+            "email": "github@austinkregel.com",
+            "homepage": "https://austinkregel.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1",
+        "spatie/laravel-query-builder": "^1.17"
+    },
+    "require-dev": {
+        "laravel/framework": "^5.8",
+        "mockery/mockery": "^1.2",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kregel\\LaravelAbstract\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Kregel\\LaravelAbstract\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Kregel\\LaravelAbstract\\AbstractServiceProvider"
+            ],
+            "aliases": {
+                "LaravelAbstract": "Kregel\\LaravelAbstract\\AbstractFacade"
+            }
+        }
+    }
+}
