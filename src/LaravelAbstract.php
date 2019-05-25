@@ -13,13 +13,6 @@ class LaravelAbstract
     public static $middlewareGroup = 'web';
 
     /**
-     * The callback that should be used to authenticate users.
-     *
-     * @var \Closure
-     */
-    public static $authUsing;
-
-    /**
      * Whether or not we should bypass the policies
      * @var bool
      */
@@ -33,19 +26,6 @@ class LaravelAbstract
     public static function middleware($middleware)
     {
         static::$middlewareGroup = $middleware;
-
-        return new static;
-    }
-
-    /**
-     * Set the callback that should be used to authenticate Horizon users.
-     *
-     * @param  \Closure  $callback
-     * @return static
-     */
-    public static function auth(Closure $callback)
-    {
-        static::$authUsing = $callback;
 
         return new static;
     }
