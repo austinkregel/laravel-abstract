@@ -11,7 +11,7 @@ class DeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        if (LaravelAbstract::$bypassPolicies === true) {
+        if (LaravelAbstract::bind()->bypassPolicies === true) {
             return true;
         }
 

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Exceptions\ModelNotInstanceOfAbstractEloquentModel;
@@ -11,39 +11,37 @@ use Kregel\LaravelAbstract\LaravelAbstract;
 
 class AbstractRouteServiceProvider extends ServiceProvider
 {
-    public const ROUTE_BINDINGS = [];
-
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
     public function boot()
     {
         parent::boot();
 
-        LaravelAbstract::middleware([
-            'web', 'auth'
-        ]);
+        LaravelAbstract::bind()
+            ->middleware(['web', 'auth'])
+            ->route([
+                'users' => User::class
+            ]);
 
-        Route::bind('abstract_model', function ($value) {
-            $class = static::ROUTE_BINDINGS[$value];
+        Route::bind('abstract_model', LaravelAbstract::bind()->resolveModelsUsing ?? function ($value) {
+                $class = LaravelAbstract::bind()->route($value);
 
-            $model = new $class;
+                $model = new $class;
 
-            throw_if(!$model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
+                throw_if(!$model instanceof AbstractEloquentModel, ModelNotInstanceOfAbstractEloquentModel::class);
 
-            return $model;
-        });
-
-        Request::macro('abstract_model', function () {
-            return $this->route('abstract_model');
-        });
+                return $model;
+            });
     }
 
     public function map()
     {
-        Route::middleware(LaravelAbstract::$middlewareGroup)
+        if (LaravelAbstract::bind()->usingRoutes) {
+            $this->mapRoutes();
+        }
+    }
+
+    protected function mapRoutes()
+    {
+        Route::middleware(LaravelAbstract::bind()->middlewareGroup)
             ->namespace('Kregel\LaravelAbstract\Http\Controllers')
             ->group(function () {
                 Route::get('api/{abstract_model}', 'AbstractResourceController@index');

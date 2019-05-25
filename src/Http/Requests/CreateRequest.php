@@ -15,7 +15,7 @@ class CreateRequest extends FormRequest
      */
     public function authorize()
     {
-        if (LaravelAbstract::$bypassPolicies === true) {
+        if (LaravelAbstract::bind()->bypassPolicies === true) {
             return true;
         }
 
