@@ -16,21 +16,11 @@ You can install the package via composer:
 composer require kregel/abstract
 ```
 
-## Usage
-Publish the vendor files. Inside the newly published `AbstractRouteServiceProvider` file you'll want to add your models to the `ROUTE_BINDINGS` array. Should looks something like
-```php
-public const ROUTE_BINDINGS = [
-    'users' => User::class
-];
-```
+## Documentation
 
-`users` could be anything you'd like, it just matters when you try to hit the endpoint. 
+Please see [the configuration documentation page](docs/configuration.md), or see [the model configuration documentation page](docs/model-configuration.md);
 
-Beyond that, you're able to limit access to the routes via the baked in Laravel policies. You'll just have to ensure to add an extra method for the `index` method.
-
-If you'd like to just bypass all the Laravel policies for the routes you can do that by adding the `LaravelAbstract::bypass(true)` to the abstract service provider.
-
-### Changelog
+## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
