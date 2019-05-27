@@ -4,6 +4,7 @@ namespace Kregel\LaravelAbstract;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 abstract class AbstractEloquentModel extends Model
 {
@@ -21,5 +22,10 @@ public const SEARCHABLE_FIELDS = [];
         foreach (static::SEARCHABLE_FIELDS as $field) {
             $query->orWhere($field, 'like', '%' . $string . '%');
         }
+    }
+
+    public function usesSoftdeletes()
+    {
+        return in_array(SoftDeletes::class, class_uses($this));
     }
 }

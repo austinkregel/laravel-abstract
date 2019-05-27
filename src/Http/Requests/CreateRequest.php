@@ -4,7 +4,6 @@ namespace Kregel\LaravelAbstract\Http\Requests;
 
 use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Illuminate\Foundation\Http\FormRequest;
-use Kregel\LaravelAbstract\LaravelAbstract;
 
 class CreateRequest extends FormRequest
 {
@@ -15,7 +14,7 @@ class CreateRequest extends FormRequest
      */
     public function authorize()
     {
-        if (LaravelAbstract::bind()->bypassPolicies === true) {
+        if (abstracted()->bypassPolicies === true) {
             return true;
         }
 

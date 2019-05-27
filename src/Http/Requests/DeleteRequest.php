@@ -11,18 +11,15 @@ class DeleteRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        if (LaravelAbstract::bind()->bypassPolicies === true) {
+        if (abstracted()->bypassPolicies === true) {
             return true;
         }
 
-        $id = $this->route('id');
+        $modelId = $this->route('abstract_model_id');
 
-        /** @var AbstractEloquentModel $model */
-        $model = $this->route('abstract_model');
+        throw_unless($modelId->id, NotFoundHttpException::class);
 
-        throw_unless($item = $model::find($id), NotFoundHttpException::class);
-
-        return $this->user()->can('delete', $item);
+        return $this->user()->can('delete', $modelId);
     }
 
     public function rules(): array

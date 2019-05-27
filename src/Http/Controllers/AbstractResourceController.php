@@ -2,6 +2,8 @@
 
 namespace Kregel\LaravelAbstract\Http\Controllers;
 
+use Exception;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
@@ -9,7 +11,9 @@ use Kregel\LaravelAbstract\AbstractEloquentModel;
 use Kregel\LaravelAbstract\Filters\ActionFilter;
 use Kregel\LaravelAbstract\Http\Requests\CreateRequest;
 use Kregel\LaravelAbstract\Http\Requests\DeleteRequest;
+use Kregel\LaravelAbstract\Http\Requests\ForceDeleteRequest;
 use Kregel\LaravelAbstract\Http\Requests\IndexRequest;
+use Kregel\LaravelAbstract\Http\Requests\RestoreRequest;
 use Kregel\LaravelAbstract\Http\Requests\UpdateRequest;
 use Kregel\LaravelAbstract\Http\Requests\ViewRequest;
 use Spatie\QueryBuilder\Filter;
@@ -20,13 +24,13 @@ class AbstractResourceController extends Controller
     use AuthorizesRequests, ValidatesRequests;
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function index(IndexRequest $request, AbstractEloquentModel $model)
     {
         $action = new ActionFilter(request()->get('action', 'paginate:14'));
 
-        $query =  QueryBuilder::for(get_class($model))
+        $query = QueryBuilder::for(get_class($model))
             ->allowedFilters(array_merge($model::ALLOWED_FILTERS, [
                 Filter::scope('q')
             ]))
@@ -45,7 +49,7 @@ class AbstractResourceController extends Controller
         return $resource->refresh();
     }
 
-    public function show(ViewRequest $request, AbstractEloquentModel $model, $id)
+    public function show(ViewRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
         $query = QueryBuilder::for(get_class($model))
             ->allowedFilters($model::ALLOWED_FILTERS)
@@ -53,26 +57,46 @@ class AbstractResourceController extends Controller
             ->allowedSorts($model::ALLOWED_SORTS)
             ->allowedFields($model::ALLOWED_FIELDS);
 
-        return $query->find($id) ?? response([
+        return $query->find($abstractEloquentModel->id) ?? response([
                 'message' => 'No resource found by that id.'
             ], 404);
     }
 
-    public function update(UpdateRequest $request, AbstractEloquentModel $model, $id)
+    public function update(UpdateRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
-        $resource = $model::findOrFail($id);
+        $abstractEloquentModel->update($request->all());
 
-        $resource->update($request->all());
-
-        return $resource->refresh();
+        return $abstractEloquentModel->refresh();
     }
 
-    public function destroy(DeleteRequest $request, AbstractEloquentModel $model, $id)
+    public function destroy(DeleteRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
-        $resource = $model::query()->find($id);
-
-        $resource->delete();
+        $abstractEloquentModel->delete();
 
         return response('', 204);
+    }
+
+    public function forceDestroy(ForceDeleteRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    {
+        if (!$model->usesSoftdeletes()) {
+            abort(404, "You cannot force delete an item of this type.");
+            return;
+        }
+
+        $abstractEloquentModel->forceDelete();
+
+        return response('', 204);
+    }
+
+    public function restore(RestoreRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
+    {
+        if (!$model->usesSoftdeletes()) {
+            abort(404, "You cannot restore an item of this type.");
+            return;
+        }
+
+        $abstractEloquentModel->restore();
+
+        return $abstractEloquentModel->refresh();
     }
 }
