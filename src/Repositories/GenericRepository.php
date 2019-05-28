@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace Kregel\LaravelAbstract\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
 
