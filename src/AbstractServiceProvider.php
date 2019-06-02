@@ -23,7 +23,5 @@ class AbstractServiceProvider extends ServiceProvider
         $this->app->bind(LaravelAbstract::class, function () {
             return LaravelAbstract::bind();
         });
-
-        parent::register();
     }
 }
