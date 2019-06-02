@@ -17,7 +17,7 @@ class GenericRepository
 
         return $item;
     }
-    public function find(string $model, string $idName, int $idValue): ?Model
+    public function find(string $model, string $idName, $idValue): ?Model
     {
         /** @var Model $item */
         return $model::where($idName, $idValue)->first();
