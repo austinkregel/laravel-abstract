@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\User;
+use Illuminate\Support\Arr;
 use Kregel\LaravelAbstract\LaravelAbstract;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,7 +14,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testBasicTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $response = $this->actingAs(factory(User::class)->create())->get('/api/users');
 
@@ -22,7 +23,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testCreateTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $response = $this->actingAs(factory(User::class)->create())
             ->post('/api/users', [
@@ -36,7 +37,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testUpdateTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
 
@@ -52,7 +53,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testUpdatePatchTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
 
@@ -68,7 +69,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testDeleteTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -78,12 +79,12 @@ class ByPassApiRouteTest extends TestCase
 
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('users', $user2->toArray());
+        $this->assertDatabaseMissing('users', Arr::except($user2->toArray(), ['email_verified_at']));
     }
 
     public function testForceDeleteTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -93,12 +94,12 @@ class ByPassApiRouteTest extends TestCase
 
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('users', $user2->toArray());
+        $this->assertDatabaseMissing('users', Arr::except($user2->toArray(), ['email_verified_at']));
     }
 
     public function testShowTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
 
@@ -112,7 +113,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testSoftDeleteTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -122,12 +123,13 @@ class ByPassApiRouteTest extends TestCase
 
         $response->assertStatus(204);
 
-        $this->assertDatabaseHas('users', $user2->toArray());
+        $this->assertDatabaseHas('users', Arr::except($user2->toArray(), ['email_verified_at']));
+
     }
 
     public function testRestoreTestWithBypass()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
 
@@ -136,12 +138,12 @@ class ByPassApiRouteTest extends TestCase
 
         $response->assertStatus(200);
 
-        $response->assertJson($user->toArray());
+        $response->assertJson(Arr::except($user->toArray(), ['email_verified_at']));
     }
 
     public function testRestoreTestWithBypassFailsIfTheModelDoesHaveSoftdeletes()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
 
@@ -153,7 +155,7 @@ class ByPassApiRouteTest extends TestCase
 
     public function testForceDeleteTestWithBypassFailsIfTheModelDoesHaveSoftdeletes()
     {
-        LaravelAbstract::bind()->bypass(true);
+        abstracted()->bypass(true);
 
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
@@ -163,6 +165,6 @@ class ByPassApiRouteTest extends TestCase
 
         $response->assertStatus(404);
 
-        $this->assertDatabaseHas('users', $user2->toArray());
+        $this->assertDatabaseHas('users', Arr::except($user->toArray(), ['email_verified_at']));
     }
 }

@@ -165,16 +165,14 @@ return [
         /*
          * Package Service Providers...
          */
-        \Kregel\LaravelAbstract\AbstractServiceProvider::class,
+        Kregel\LaravelAbstract\AbstractServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \App\Providers\AbstractRouteServiceProvider::class,
+        App\Providers\AbstractRouteServiceProvider::class,
     ],
 
     /*

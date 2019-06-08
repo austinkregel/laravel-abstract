@@ -22,7 +22,7 @@ class PolicyApiRouteTest extends TestCase
 
     public function testBasicTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
+        abstracted()->bypass(false);
 
         $response = $this->actingAs(factory(User::class)->create([
             'email' => 'github@austinkregel.com'
@@ -33,7 +33,7 @@ class PolicyApiRouteTest extends TestCase
 
     public function testCreateTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
+        abstracted()->bypass(false);
 
         $response = $this->actingAs(factory(User::class)->create([
             'email' => 'github@austinkregel.com'
@@ -49,7 +49,7 @@ class PolicyApiRouteTest extends TestCase
 
     public function testUpdateTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
+        abstracted()->bypass(false);
 
         $user = factory(User::class)->create([
             'email' => 'github@austinkregel.com'
@@ -67,8 +67,8 @@ class PolicyApiRouteTest extends TestCase
 
     public function testUpdatePatchTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
-
+        abstracted()->bypass(false);
+$this->withoutExceptionHandling();
         $user = factory(User::class)->create([
             'email' => 'github@austinkregel.com'
         ]);
@@ -81,11 +81,12 @@ class PolicyApiRouteTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertJsonFragment(['name' => 'Austin Kregel']);
+        $this->withExceptionHandling();
     }
 
     public function testDeleteTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
+        abstracted()->bypass(false);
 
         $user = factory(User::class)->create([
             'email' => 'github@austinkregel.com'
@@ -102,8 +103,8 @@ class PolicyApiRouteTest extends TestCase
 
     public function testShowTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
-        $this->withoutExceptionHandling();
+        abstracted()->bypass(false);
+
         $user = factory(User::class)->create([
             'email' => 'github@austinkregel.com'
         ]);
@@ -118,7 +119,7 @@ class PolicyApiRouteTest extends TestCase
 
     public function testSoftDeleteTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
+        abstracted()->bypass(false);
 
         Carbon::setTestNow($now = Carbon::create(2019, 1, 1, 1, 1, 1));
 
@@ -140,7 +141,7 @@ class PolicyApiRouteTest extends TestCase
 
     public function testRestoreTestWithoutBypassSuccess()
     {
-        LaravelAbstract::bind()->bypass(false);
+        abstracted()->bypass(false);
 
         $user = factory(User::class)->create([
             'email' => 'github@austinkregel.com'
