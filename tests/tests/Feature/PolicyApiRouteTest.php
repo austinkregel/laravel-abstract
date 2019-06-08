@@ -68,7 +68,7 @@ class PolicyApiRouteTest extends TestCase
     public function testUpdatePatchTestWithoutBypassSuccess()
     {
         abstracted()->bypass(false);
-$this->withoutExceptionHandling();
+
         $user = factory(User::class)->create([
             'email' => 'github@austinkregel.com'
         ]);
@@ -81,7 +81,6 @@ $this->withoutExceptionHandling();
         $response->assertStatus(200);
 
         $response->assertJsonFragment(['name' => 'Austin Kregel']);
-        $this->withExceptionHandling();
     }
 
     public function testDeleteTestWithoutBypassSuccess()
