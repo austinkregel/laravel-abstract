@@ -31,18 +31,19 @@ class AbstractResourceController extends Controller
         $action = new ActionFilter(request()->get('action', 'paginate:14'));
 
         $query = QueryBuilder::for(get_class($model))
-            ->allowedFilters(array_merge($model::ALLOWED_FILTERS, [
+            ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
                 Filter::scope('q')
             ]))
-            ->allowedIncludes($model::ALLOWED_RELATIONSHIPS)
-            ->allowedSorts($model::ALLOWED_SORTS)
-            ->allowedFields($model::ALLOWED_FIELDS);
+            ->allowedIncludes($model->getAbstractAllowedRelationships())
+            ->allowedSorts($model->getAbstractAllowedSorts())
+            ->allowedFields($model->getAbstractAllowedFields());
 
         return $action->execute($query);
     }
 
     public function store(CreateRequest $request, AbstractEloquentModel $model)
     {
+        /** @var AbstractEloquentModel $resource */
         $resource = new $model;
         $resource->fill($request->validated());
         $resource->save();
@@ -52,10 +53,10 @@ class AbstractResourceController extends Controller
     public function show(ViewRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
         $query = QueryBuilder::for(get_class($model))
-            ->allowedFilters($model::ALLOWED_FILTERS)
-            ->allowedIncludes($model::ALLOWED_RELATIONSHIPS)
-            ->allowedSorts($model::ALLOWED_SORTS)
-            ->allowedFields($model::ALLOWED_FIELDS);
+            ->allowedFilters($model->getAbstractAllowedFilters())
+            ->allowedIncludes($model->getAbstractAllowedRelationships())
+            ->allowedSorts($model->getAbstractAllowedSorts())
+            ->allowedFields($model->getAbstractAllowedFields());
 
         return $query->find($abstractEloquentModel->id) ?? response([
                 'message' => 'No resource found by that id.'
