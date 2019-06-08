@@ -8,19 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 abstract class AbstractEloquentModel extends Model
 {
-public const ALLOWED_FILTERS = [];
-public const ALLOWED_RELATIONSHIPS = [];
-public const ALLOWED_SORTS = [];
-public const ALLOWED_FIELDS = [];
-public const VALIDATION_CREATE_RULES = [];
-public const VALIDATION_UPDATE_RULES = [];
-
-public const SEARCHABLE_FIELDS = [];
+    public const VALIDATION_CREATE_RULES = [];
+    public const VALIDATION_UPDATE_RULES = [];
 
     public function scopeQ(Builder $query, string $string)
     {
-        foreach (static::SEARCHABLE_FIELDS as $field) {
-            $query->orWhere($field, 'like', '%' . $string . '%');
+        $fields = $this->getAbstractSearchableFields();
+
+        foreach ($fields as $field) {
+            $query->orWhere($field, 'like', '%'.$string.'%');
         }
     }
 
@@ -28,4 +24,10 @@ public const SEARCHABLE_FIELDS = [];
     {
         return in_array(SoftDeletes::class, class_uses($this));
     }
+
+    abstract public function getAbstractAllowedFilters(): array;
+    abstract public function getAbstractAllowedRelationships(): array;
+    abstract public function getAbstractAllowedSorts(): array;
+    abstract public function getAbstractAllowedFields(): array;
+    abstract public function getAbstractSearchableFields(): array;
 }
