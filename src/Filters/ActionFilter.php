@@ -11,7 +11,8 @@ class ActionFilter
         'count',
         'sum',
         'avg',
-        'get'
+        'get',
+        'first',
     ];
 
     protected const DEFAULT_ACTION = 'paginate';
