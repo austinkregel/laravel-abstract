@@ -20,7 +20,7 @@ Please see [the configuration documentation page](docs/configuration.md), or see
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Please see [ChangeLager](https://laravel-abstract.changed.to/975) for more information on what has changed recently.
 
 ## Contributing
 
