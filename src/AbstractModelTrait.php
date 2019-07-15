@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 trait AbstractModelTrait
 {
-    public function scopeQ(Builder $query, string $string)
+    public function scopeQ(Builder $query, string $string): void
     {
         $fields = $this->getAbstractSearchableFields();
 
@@ -16,7 +16,7 @@ trait AbstractModelTrait
         }
     }
 
-    public function usesSoftdeletes()
+    public function usesSoftdeletes(): bool
     {
         return in_array(SoftDeletes::class, class_uses($this));
     }
