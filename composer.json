@@ -1,11 +1,14 @@
 {
     "name": "kregel/laravel-abstract",
-    "description": "",
+    "description": "Dynamic Laravel CRUD API with support for auth policies",
     "keywords": [
         "kregel",
         "abstract",
         "prototyping",
-        "api"
+        "api",
+        "laravel",
+        "crud",
+        "policies"
     ],
     "homepage": "https://github.com/austinkregel/abstract",
     "license": "MIT",
