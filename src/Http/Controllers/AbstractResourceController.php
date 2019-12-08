@@ -30,12 +30,12 @@ class AbstractResourceController extends Controller
         $action = new ActionFilter(request()->get('action', 'paginate:14'));
 
         $query = QueryBuilder::for(get_class($model))
+            ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters(array_merge($model->getAbstractAllowedFilters(), [
                 Filter::scope('q')
             ]))
             ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts())
-            ->allowedFields($model->getAbstractAllowedFields());
+            ->allowedSorts($model->getAbstractAllowedSorts());
 
         return $action->execute($query);
     }
@@ -52,10 +52,10 @@ class AbstractResourceController extends Controller
     public function show(ViewRequest $request, AbstractEloquentModel $model, AbstractEloquentModel $abstractEloquentModel)
     {
         $query = QueryBuilder::for(get_class($model))
+            ->allowedFields($model->getAbstractAllowedFields())
             ->allowedFilters($model->getAbstractAllowedFilters())
             ->allowedIncludes($model->getAbstractAllowedRelationships())
-            ->allowedSorts($model->getAbstractAllowedSorts())
-            ->allowedFields($model->getAbstractAllowedFields());
+            ->allowedSorts($model->getAbstractAllowedSorts());
 
         return $query->find($abstractEloquentModel->id) ?? response([
                 'message' => 'No resource found by that id.'
