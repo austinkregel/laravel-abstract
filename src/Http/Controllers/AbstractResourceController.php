@@ -3,7 +3,6 @@
 namespace Kregel\LaravelAbstract\Http\Controllers;
 
 use Exception;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller;
@@ -16,7 +15,7 @@ use Kregel\LaravelAbstract\Http\Requests\IndexRequest;
 use Kregel\LaravelAbstract\Http\Requests\RestoreRequest;
 use Kregel\LaravelAbstract\Http\Requests\UpdateRequest;
 use Kregel\LaravelAbstract\Http\Requests\ViewRequest;
-use Spatie\QueryBuilder\Filter;
+use Spatie\QueryBuilder\AllowedFilter as Filter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class AbstractResourceController extends Controller
