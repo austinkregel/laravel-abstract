@@ -2,6 +2,7 @@
 
 namespace Kregel\LaravelAbstract\Filters;
 
+use Illuminate\Support\Arr;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ActionFilter
@@ -71,7 +72,7 @@ class ActionFilter
     {
         $parts = explode(':', $this->actionString);
 
-        $this->method = $this->validateAction(array_first($parts));
+        $this->method = $this->validateAction(Arr::first($parts));
 
         if (count($parts) === 1) {
             $this->hasArguments = false;
