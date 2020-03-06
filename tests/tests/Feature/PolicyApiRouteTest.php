@@ -15,14 +15,8 @@ class PolicyApiRouteTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function testBasicTestWithoutBypassSuccess()
     {
-        $this->withoutExceptionHandling();
         abstracted()->bypass(false);
 
         $response = $this->actingAs(factory(User::class)->create([
