@@ -22,8 +22,6 @@ class RestoreRequest extends FormRequest
         return $this->user()->can('restore', $modelId);
     }
 
-
-
     public function rules(): array
     {
         return [];

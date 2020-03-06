@@ -24,8 +24,6 @@ class ViewRequest extends FormRequest
 
     public function rules()
     {
-        /** @var AbstractEloquentModel $model */
-        $model = $this->route('abstract_model');
-        return $model::VALIDATION_UPDATE_RULES;
+        return [];
     }
 }

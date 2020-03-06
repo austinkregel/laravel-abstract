@@ -22,6 +22,7 @@ class PolicyApiRouteTest extends TestCase
 
     public function testBasicTestWithoutBypassSuccess()
     {
+        $this->withoutExceptionHandling();
         abstracted()->bypass(false);
 
         $response = $this->actingAs(factory(User::class)->create([

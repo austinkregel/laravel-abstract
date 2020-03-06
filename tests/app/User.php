@@ -6,11 +6,20 @@ use Kregel\LaravelAbstract\AbstractUser as Authenticatable;
 
 class User extends Authenticatable
 {
-    public const VALIDATION_CREATE_RULES = [
-        'name' => 'required',
-        'email' => 'required',
-        'password' => 'required',
-    ];
+    public function getValidationCreateRules(): array
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ];
+    }
+    public function getValidationUpdateRules(): array
+    {
+        return [
+            'name' => 'required'
+        ];
+    }
 
     protected $fillable = [
         'name',

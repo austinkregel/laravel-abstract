@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 
 interface AbstractEloquentModel
 {
-    public const VALIDATION_CREATE_RULES = [];
-    public const VALIDATION_UPDATE_RULES = [];
+    public function getValidationCreateRules(): array;
+    public function getValidationUpdateRules(): array;
     public function getAbstractAllowedFilters(): array;
     public function getAbstractAllowedRelationships(): array;
     public function getAbstractAllowedSorts(): array;
