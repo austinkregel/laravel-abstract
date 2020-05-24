@@ -20,7 +20,7 @@ Please see [the configuration documentation page](docs/configuration.md), or see
 
 ## Changelog
 
-Please see [ChangeLager](https://laravel-abstract.changed.to/1099) for more information on what has changed recently.
+Please see [our releases](https://github.com/austinkregel/laravel-abstract/releases) for more information on what has changed recently.
 
 ## Contributing
 
